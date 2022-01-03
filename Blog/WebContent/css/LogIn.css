@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.login{
+	width: 300px;
+	height: 10px;
+	position: absolute;
+	left: 30%;
+	top: 20%;
+}
+.container{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+}
+.newlogin{
+	width: 600px;
+	height: 100px;
+	position: absolute;
+	left: 10%;
+	top: 15%;
+}
+p{
+	color: #E6CAFF;
+}
+h2{
+    position: absolute;
+    left: 40%;
+    top: 0%;
+    color: #E6CAFF;
+    text-align: center;
+    margin-top: 2%;
+}
+#userID, #passwd{
+	width: 155px;
+	height: 25px;
+}
+a{
+	text-decoration: none;/* 去下划线 */
+}
+#set_userID,#set_passwd,#set_username,#email,#telephone{
+	width: 155px;
+	height: 25px;
+}

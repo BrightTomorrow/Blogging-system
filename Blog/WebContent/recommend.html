@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>博客</title>
+    <link rel="stylesheet" href="css/recommend.css">
+    <link rel="stylesheet" href="css/myboke.css">
+    <link rel="stylesheet" href="css/LogIn.css">
+    <script src="js/flower.js" defer></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/out.js" defer></script>
+
+	<script>
+	//首页
+	$.ajax({
+		url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+        //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+		type : 'GET',
+		dataType : 'text',
+		data:{
+			id:"1"
+		},
+		success:function(data){
+			var arr = data.split("$$$$");
+			if(arr[arr.length-1].length > 1){
+				document.getElementById("login").innerHTML = "<a>我的</a>"
+			}
+			document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+			var lbt = "";
+			for (var i=0;i<arr.length-1;i++){
+				var one = arr[i].split("$$$");
+				lbt += '<li id=\"lilist\" onclick=\"test3('+one[0]+')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+				'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+				'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+				'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+				'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+				'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+				'</p>'+
+				'</h5></li>';
+				$("#textlist").empty()
+				$("#textlist").append(lbt);
+				
+			}
+		},
+		error : function() {
+			alert("获取异常");
+		}
+	});
+	function header(){
+		$.ajax({
+			url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+            //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+			type : 'GET',
+			dataType : 'text',
+			data:{
+				id:"1"
+			},
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"test3('+one[0]+')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					'</h5></li>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function() {
+				alert("获取异常");
+			}
+		});
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//	热榜
+	function test1(){
+
+		$.ajax({
+			url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+            //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+			type : 'GET',
+			dataType : 'text',
+			data:{
+				id:"2"
+			},
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"test3('+one[0]+')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					'</h5></li>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function() {
+				alert("获取异常");
+			}
+		});
+
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+    //分类
+	function test2(text_class){
+		$.ajax({
+			url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+            //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+			type : 'GET',
+			dataType : 'text',
+	        async : true,
+	        timeout : 50000,
+	        data:{
+	        	id:"1",
+	        	text_class1: text_class
+	        },
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"test3('+one[0]+')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					'</h5></li>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function() {
+				alert("获取异常");
+			}
+		});
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	//打开全文
+	function test3(text_id){
+		$.ajax({
+			url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+            //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+			type : 'GET',
+			dataType : 'text',
+			data:{
+				id:"2",
+		       	text_id: text_id
+		       },
+		    success:function(text){
+					document.getElementById("rightdiv").innerHTML = "<div id=\"bokealltext\"></div>"
+					var arr = text.split("$$$");
+					var textboke = '<div id="texttitle"><h3 style="color:#e46143;text-align:center\">'+arr[1]+'</h3></div>'+
+						'<div id="header">'+
+						'&nbsp;&nbsp;&nbsp;<div id=\"header1\"><span id=\"time\" style="color:#ec9e80\">'+arr[3]+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"view\" style="color:#ec9e80\">浏览:'+arr[6]+
+						'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"good\" style="color:#ec9e80\">点赞:'+arr[7]+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"save\" style="color:#ec9e80\">收藏:'+arr[9]+'</span></div>'+
+						'&nbsp;&nbsp;&nbsp;<div id=\"header2\"><span id=\"class\" style="color:#ec9e80\">类别:'+arr[4]+'</span></div>'+
+						'</div>'+
+						'<div id=\"alltext"><p>'+arr[5]+'</p></div>'+
+						'<div id=\'setgood\' style="text-align:center" onclick=\"good_save(1,'+arr[0]+')\"><a>点赞</a></div>'+
+						'<div id=\'setsave\' style="text-align:center" onclick=\"good_save(2,'+arr[0]+')\"><a>收藏</a></div>';
+					$("#bokealltext").empty()
+					$("#bokealltext").append(textboke);
+					
+				},
+				
+			error : function() {
+				alert("获取异常");
+			}
+		});
+	}
+//////////////////////////////////////////////////////////////////////////////////
+
+	//点赞，收藏
+	function good_save(act,text_id){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"10",
+				act:act,
+				text_id: text_id
+			},
+			success:function(text){
+				
+				if(text=="1"){
+					alert("已点赞！");
+					test3(text_id);
+				};
+				if(text=="2"){
+					alert("已收藏！");
+					test3(text_id);
+				};
+				if(text=="3")alert("请登录！");
+			},
+			error : function(){										
+				alert("失败");
+			},
+		})
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	//登录
+	function login(){
+		$.ajax({
+			url : 'http://192.168.121.134:80/Hadoopbigwork/recommend',
+            //url : 'http://localhost:8080/Hadoopbigwork/recommend',
+			type : 'GET',
+			dataType : 'text',
+			data:{
+				id:"3"
+		       },
+		    success:function(data){
+				if(data=="1"){
+					window.location.assign('./LogIn.html');
+				}else if(data=="2"){
+					window.location.assign('./myboke.html');
+				}
+			},
+			error : function() {
+				alert("获取异常");
+			}
+		});
+		
+	}
+	</script>
+</head>
+<body id="oldform">
+    <div id="jsi-cherry-container" class="container">
+        <div id="leftdiv" style="position:absolute;overflow-x:hidden;overflow-y:auto">
+			<ul id='list'>
+				<li class="onelist" id='oneheader' onclick="header();return false">
+				<a href=''>首页</a>
+				</li>
+				<li class="mylist1" id='hot' onclick="test1();return false">
+				<a href=''>热榜</a>
+				</li>
+				<li class="mylist2" id='python' onclick="test2(this.id);return false">
+				<a href=''>Python</a>
+				</li>
+				<li class="mylist3" id='java' onclick="test2(this.id);return false">
+				<a href=''>Java</a>
+				</li>
+				<li class="mylist4" id='ai' onclick="test2(this.id);return false">
+				<a href=''>人工智能</a>
+				</li>
+				<li class="mylist5" id='blockchain' onclick="test2(this.id);return false">
+				<a href=''>区块链</a>
+				</li>
+				<li class="mylist6" id='c' onclick="test2(this.id);return false">
+				<a href=''>C/C++</a>
+				</li>
+				<li class="mylist7" id='cloud' onclick="test2(this.id);return false">
+				<a href=''>云计算/大数据</a>
+				</li>
+				<li class="mylist8" id='db' onclick="test2(this.id);return false">
+				<a href=''>数据库</a>
+				</li>
+				<li class="mylist9" id='fund' onclick="test2(this.id);return false">
+				<a href=''>计算机基础</a>
+				</li>
+				<li class="mylist10" id='game' onclick="test2(this.id);return false">
+				<a href=''>游戏开发</a>
+				</li>
+				<li class="mylist11" id='iot' onclick="test2(this.id);return false">
+				<a href=''>物联网</a>
+				</li>
+				<li class="mylist12" id='mobile' onclick="test2(this.id);return false">
+				<a href=''>移动开发</a>
+				</li>
+				<li class="mylist13" id='ops' onclick="test2(this.id);return false">
+				<a href=''>运维</a>
+				</li>
+				<li class="mylist14" id='web' onclick="test2(this.id);return false">
+				<a href=''>前端</a>
+				</li>
+			</ul>
+        </div>
+        <div id="rightdiv" style="position:absolute;overflow-x:hidden;overflow-y:auto">
+		 	
+        </div>
+        <div id='login' style="text-align:center" onclick="login()"><a>登录</a></div>
+    </div>
+</body>
+</html>
