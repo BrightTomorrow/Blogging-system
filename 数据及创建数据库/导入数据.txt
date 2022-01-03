@@ -1,0 +1,25 @@
+mysql -u root -p密码 --local-infile；
+set global local_infile=1;
+1 用户管理
+load data local infile'/hadoopwork/datas/user_dbx.txt'
+into table `users`
+fields terminated by '$$$'
+lines terminated by '\n';
+
+2 博文管理
+load data local infile'/hadoopwork/datas/text_dbx.txt'
+into table `text`
+fields terminated by '$$$'
+lines terminated by '\n';
+
+3 分类管理
+load data local infile'/hadoopwork/datas/class_dbx.txt'
+into table `class`
+fields terminated by '~'
+lines terminated by '\n';
+
+4 用户行为
+load data local infile'/hadoopwork/datas/behavior_dbx.txt'
+into table `behavior`
+fields terminated by '$$$'
+lines terminated by '\n';
