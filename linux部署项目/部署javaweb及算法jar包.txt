@@ -1,0 +1,29 @@
+！！！！！！Linux先开启Hadoop集群！！！！！！！！！！！！！否则推荐为空（mapreduce运行失败，用户行为表被清空）！！！！！！！！！！
+
+##javaweb的部署
+（1）apache-tomcat-8.5.72 安装在hadoop01的/home路径下；
+（2）javaweb的war包部署到/home/apache-tomcat-8.5.72/webapps目录下；
+        解决问题：Tomcat是使用POST的方式发送请求参数，请求参数有九万多个，点击提交就没有反应了，后来查询资料知道了是请求参数过多，超过了Tomcat的上传文件最大值2M，通过以下方法进行修改后解决了问题：
+	在tomcat目录下的conf文件夹下，在Tomcat的配置文件server.xml 文件中以下的位置中添加maxPostSize参数。当maxPostSize="-1"时，POST方式上传的文件大小不会被限制。
+（3）执行/home/apache-tomcat-8.5.72/bin/startup.sh，开启apache-tomcat；
+（4）在浏览器中输入http://192.168.121.134:80/Hadoopbigwork/recommend.html即可访问网站；
+
+##推荐算法jar包（基于物品的协同过滤算法）部署
+（1）推荐算法jar包放在/hadoopwork/jars目录下；
+（2）推荐算法jar包执行脚本放在/hadoopwork/run_itemCF_jar目录下；
+（3）# 定时执行
+	service crond start     //启动服务 
+	service crond stop     //关闭服务 
+	service crond restart     //重启服务
+        # 打开定时任务配置文件
+        命令：crontab -e
+        #每三分钟执行一次hadoopshell.sh，推荐结果存入数据库，输出运行日志到
+        */3 * * * * /hadoopwork/run_itemCF_jar/hadoopshell.sh > /hadoopwork/jar_run.log/log 2>&1
+
+
+##协同过滤mapreduce
+C1：用户对博客的评分矩阵
+C2、C2_1：构造博客的同现矩阵
+C3：用户对博客的评分转型矩阵<博客ID                 用户ID:评分>
+C4：生成推荐评分	<用户ID    推荐的博客ID,推荐分数>
+C4：将推荐评分汇总并处理成所需格式    <用户ID       推荐的博客ID 推荐分数>
