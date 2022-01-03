@@ -1,0 +1,81 @@
+1 用户管理
+用户的相关信息如下：用户ID、用户名、用户密码、用户邮箱、注册时间、用户手机号。
+
+用户注册时需提供用户名、用户密码、用户邮箱或用户手机号。
+
+CREATE TABLE `users` (
+ `user_id` varchar(20) NOT NULL COMMENT '用户ID',
+ `user_name` varchar(100) NOT NULL COMMENT '用户名',
+ `user_password` varchar(15) NOT NULL COMMENT '用户密码',
+ `user_email` varchar(30) NOT NULL COMMENT '用户邮箱',
+ `user_registration_time` datetime DEFAULT NULL COMMENT '注册时间',
+ `user_telephone_number` varchar(11) NOT NULL COMMENT '用户手机号',
+ PRIMARY KEY (`user_id`)
+) DEFAULT CHARSET=utf8;
+————————————————
+
+
+2 博文管理
+博文可以被普通用户发布、修改、删除、点赞、收藏，其中修改和删除仅限于自己发表的博客。
+
+博文发布时需要设置分类、标签。
+CREATE TABLE `text` (
+ `text_id` varchar(20) NOT NULL COMMENT '博文ID',
+ `text_title` text NOT NULL COMMENT '博文标题',
+ `writer_id` varchar(20) NOT NULL COMMENT '发表用户ID',
+ `text_date` datetime DEFAULT NULL COMMENT '发表时间',
+ `text_class` varchar(20) NOT NULL COMMENT '博文分类',
+ `text_content` longtext NOT NULL COMMENT '博文内容',
+ `text_views` bigint(20) default 0 NOT NULL COMMENT '浏览量',
+ `text_good` bigint(20) default 0 NOT NULL COMMENT '点赞数',
+ `text_comment` bigint(20) default 0 NOT NULL COMMENT '评论总数',
+ `text_save` bigint(20) default 0 NOT NULL COMMENT '收藏数',
+ PRIMARY KEY (`text_id`)
+) DEFAULT CHARSET=utf8;
+————————————————
+
+3 评论管理
+评论的相关信息如下：评论ID、发表用户ID、评论博文ID、评论日期、评论内容、父评论ID。
+
+评论可以被用户发表和删除以及被其他用户回复。
+CREATE TABLE `comments` (
+ `comment_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评论ID',
+ `user_id` bigint(20) NOT NULL COMMENT '发表用户ID',
+ `article_id` bigint(20) NOT NULL COMMENT '评论博文ID',
+ `comment_date` datetime DEFAULT NULL COMMENT '评论日期',
+ `comment_content` text NOT NULL COMMENT '评论内容',
+ `parent_comment_id` bigint(20) NOT NULL COMMENT '父评论ID',
+ PRIMARY KEY (`comment_id`)
+) DEFAULT CHARSET=utf8;
+————————————————
+
+4 分类管理
+分类的相关信息如下：分类ID、分类名称
+
+只有管理员可以添加、删除、修改分类。
+
+分类的作用不仅可以将文章分类，还可以作为博客的菜单。
+CREATE TABLE `class` (
+ `class_id` varchar(20) NOT NULL COMMENT '分类ID',
+ `class_name` varchar(50) NOT NULL COMMENT '分类名称',
+ PRIMARY KEY (`class_id`)
+) CHARSET=utf8;
+————————————————
+
+5 用户行为
+用户ID，博文ID，点赞，收藏
+CREATE TABLE `behavior` (
+`user_id` bigint(20) NOT NULL COMMENT '用户ID',
+`text_id` bigint(20) NOT NULL COMMENT '博文ID',
+`text_good` int(2) default 0 check(text_good in(0, 1)) COMMENT '是否点赞',
+`text_save` int(2) default 0 check(text_save in(0, 1)) COMMENT '是否收藏'
+) DEFAULT CHARSET=utf8;
+————————————————
+
+
+6 订阅
+用户ID，博主ID（被关注用户ID）
+CREATE TABLE `dingyue` (
+`user_id` bigint(20) NOT NULL COMMENT '用户ID',
+`other_user_id` bigint(20) NOT NULL COMMENT '博主ID'
+) DEFAULT CHARSET=utf8;
