@@ -1,0 +1,33 @@
+com.work.test.C1：
+    args[0]=>input 
+    args[1]=>c1output
+命令：hadoop jar ItemCF.jar com.work.test.C1 /hadoopwork/recommend/ItemCF/input /hadoopwork/recommend/ItemCF/c1output
+
+com.work.test.C2：
+    args[0]=>input 
+    args[1]=>c2output
+命令：hadoop jar ItemCF.jar com.work.test.C2 /hadoopwork/recommend/ItemCF/input /hadoopwork/recommend/ItemCF/c2output
+
+com.work.test.C2_1：
+    args[0]=>c2output 
+    args[1]=>c2_1output
+命令：hadoop jar ItemCF.jar com.work.test.C2_1 /hadoopwork/recommend/ItemCF/c2output /hadoopwork/recommend/ItemCF/c2_1output
+
+com.work.test.C3：
+    args[0]=>c1output 
+    args[1]=>c3output
+命令：hadoop jar ItemCF.jar com.work.test.C3 /hadoopwork/recommend/ItemCF/hadoopwork/recommend/ItemCF/c1output /hadoopwork/recommend/ItemCF/c3output
+
+com.work.test.C4：
+    args[0]=>c2_1output 
+    args[1]=>c3output
+    args[2]=>c4output
+命令：hadoop jar ItemCF.jar com.work.test.C4 /hadoopwork/recommend/ItemCF/c2_1output /hadoopwork/recommend/ItemCF/c3output /hadoopwork/recommend/ItemCF/c4output
+
+com.work.test.C4_1：
+    args[0]=>c4output
+    args[1]=>resultoutput
+命令：hadoop jar ItemCF.jar com.work.test.C4_1 /hadoopwork/recommend/ItemCF/c4output /hadoopwork/recommend/ItemCF/resultoutput
+
+
+Hadoop上的/hadoopwork/recommend/ItemCF文件夹下
