@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>博客</title>
+    <link rel="stylesheet" href="css/recommend.css">
+    <link rel="stylesheet" href="css/myboke.css">
+    <link rel="stylesheet" href="css/LogIn.css">
+    <script src="js/flower.js" defer></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/out.js" defer></script>
+
+	<script>
+	//	用户资料
+	function test1(){
+	
+		document.getElementById("rightdiv").innerHTML =
+				"<form method=\"GET\" id='form'>" +
+					"<h2>修改用户资料</h2>" +
+					"<div class=\"newlogin\">" +
+						"<p>账&nbsp;&nbsp;&nbsp;号：<input type=\"text\" name=\"set_userID\" id=\"set_userID\" />" +
+						"&nbsp;密&nbsp;&nbsp;&nbsp;码：<input type=\"password\" name=\"set_password\" id=\"set_passwd\" /></p>" +
+						"<p>昵&nbsp;&nbsp;&nbsp;称：<input type=\"text\" name=\"set_username\" id=\"set_username\" />" +
+						"&nbsp;邮&nbsp;&nbsp;&nbsp;箱：<input type=\"text\" name=\"email\" id=\"email\" /></p>" +
+						"<p>电&nbsp;&nbsp;&nbsp;话：<input type=\"text\" name=\"telephone\" id=\"telephone\" />" +
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" name=\"\" id=\"updata1\" value=\"确定修改\" onclick=\"updata()\"/>" +
+					"</div>" +
+				"</form>"
+	}
+	//更新资料
+	function updata() {
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/LogIn',
+            //url : 'http://localhost:8080/Hadoopbigwork/LogIn',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"3",
+				userID:document.getElementById("set_userID").value,
+				set_username:document.getElementById("set_username").value,
+				set_passwd:document.getElementById("set_passwd").value,
+				email:document.getElementById("email").value,
+				telephone:document.getElementById("telephone").value
+				},
+			success:function(data){
+				if(data[0]=="1"){
+					alert("更新成功");
+					window.location.assign('./LogIn.html');
+				}else{
+					alert("更新失败");
+				}
+			},
+			error : function(){										
+				alert("失败")
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////
+	//博客管理
+	function test2(){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"4"
+			},
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"showtext('+ one[0] +')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					 '</h5></li>'+
+					'<input type=\"button\" name=\"\" id=\"updata1\" style=\"float:right\" value=\"删除\" onclick=\"deletetext('+ one[0] +')\"/>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function(){
+				alert("失败");
+			},
+		})
+	}
+	//删除博文
+	function deletetext(text_ID) {
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"8",
+				text_ID:text_ID
+				},
+			success:function(data){
+				if(data=="1"){
+					alert("删除成功");
+					test2();
+				}else{
+					alert("删除失败");
+				}
+			},
+			error : function(){										
+				alert("失败")
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////	
+	
+	//写博客
+	function test3(){
+		document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>";
+		lbt = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+		'<label style=\"color:#E6CAFF\">题目：<input type=\"text\" name=\"boketitle\" style=\"width: 200px;height:25px;\" required></label><br>'+
+		'<label id=\'textclass\' style=\"color:#E6CAFF\">类别：<select name=\"bokeclass\">'+
+			'<option>ai</option>'+
+			'<option>blockchain</option>'+
+			'<option>c</option>'+
+			'<option>cloud</option>'+
+			'<option>db</option>'+
+			'<option>fund</option>'+
+			'<option>game</option>'+
+			'<option>iot</option>'+
+			'<option>java</option>'+
+			'<option>mobile</option>'+
+			'<option>ops</option>'+
+			'<option>python</option>'+
+			'<option>web</option>'+
+		'</select></label><br>'+
+		'<label style=\"color:#E6CAFF\">正文：<textarea type=\"text\" name=\"boketext\" style=\"width: 660px;height: 660px;font-size: 1.5rem;\" required></textarea></label><br>' +
+		'<input type=\"button\" name=\"\" id=\"updata1\" style=\"float:right\" value=\"发布\" onclick=\"writertext()\"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>';
+		$("#textlist").empty()
+		$("#textlist").append(lbt);
+	}
+	function writertext(){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"7",
+				boketitle:document.getElementsByName('boketitle')[0].value,
+				bokeclass:document.getElementsByName('bokeclass')[0].value,
+				boketext:document.getElementsByName('boketext')[0].value
+			},
+			success:function(data){
+				if (data=="1"){
+					alert("发布成功")
+				}
+				if(data=="0"){
+					alert("标题和内容不能为空！")
+				}
+			},
+			error : function(){
+				alert("失败");
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////
+	
+	//展示已收藏博客
+	function test4(){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"5"
+			},
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"showtext('+ one[0] +')\" style=\"list-style: none\">'+
+					'<h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					'</h5></li>'+
+					'<input type=\"button\" name=\"\" id=\"updata1\" style=\"float:right\" value=\"删除\" onclick=\"deletesave('+ one[0] +')\"/>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function(){
+				alert("失败");
+			},
+		})
+	}
+	//取消收藏的博文
+	function deletesave(text_ID) {
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"11",
+				text_ID:text_ID
+				},
+			success:function(data){
+				if(data=="1"){
+					alert("删除成功");
+					test4();
+				}else{
+					alert("删除失败");
+				}
+			},
+			error : function(){										
+				alert("失败")
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////
+	
+	//推荐
+	function test5(){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"9"
+			},
+			success:function(data){
+				document.getElementById("rightdiv").innerHTML = "<ul id=\"textlist\"></ul>"
+				var arr = data.split("$$$$");
+				var lbt = "";
+				for (var i=0;i<arr.length-1;i++){
+					var one = arr[i].split("$$$");
+					lbt += '<li id=\"lilist\" onclick=\"showtext('+ one[0] +')\" style=\"list-style: none\"><h5 style="color:#E6CAFF;list-style: none\">' + one[1] +
+					'&nbsp;&nbsp;&nbsp;<p id=\"infor\" style="color:#65c100;font-size:13px\">'+one[3]+
+					'&nbsp;&nbsp;&nbsp;类别:'+one[4]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览:'+one[6]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞:'+one[7]+
+					'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收藏:'+one[9]+
+					'</p>'+
+					'</h5></li>';
+					$("#textlist").empty()
+					$("#textlist").append(lbt);
+					
+				}
+			},
+			error : function(){
+				alert("失败");
+			},
+		})}
+//////////////////////////////////////////////////////////////////////////////////
+
+	//打开全文
+	function showtext(text_ID){
+		
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"6",
+				text_id:text_ID
+				},
+			success:function(text){
+				document.getElementById("rightdiv").innerHTML = "<div id=\"bokealltext\"></div>"
+				var arr = text.split("$$$");
+				var textboke = '<div id="texttitle"><h3 style="color:#e46143;text-align:center\">'+arr[1]+'</h3></div>'+
+					'<div id="header">'+
+					'&nbsp;&nbsp;&nbsp;<div id=\"header1\"><span id=\"time\" style="color:#ec9e80\">'+arr[3]+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"view\" style="color:#ec9e80\">浏览:'+arr[6]+
+					'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"good\" style="color:#ec9e80\">点赞:'+arr[7]+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"save\" style="color:#ec9e80\">收藏:'+arr[9]+'</span></div>'+
+					'&nbsp;&nbsp;&nbsp;<div id=\"header2\"><span id=\"class\" style="color:#ec9e80\">类别:'+arr[4]+'</span></div>'+
+					'</div>'+
+					'<div id=\"alltext"><p>'+arr[5]+'</p></div>'+
+					'<div id=\'setgood\' style="text-align:center" onclick=\"good_save(1,'+arr[0]+')\"><a>点赞</a></div>'+
+					'<div id=\'setsave\' style="text-align:center" onclick=\"good_save(2,'+arr[0]+')\"><a>收藏</a></div>';
+				$("#bokealltext").empty()
+				$("#bokealltext").append(textboke);
+				
+			},
+			error : function(){										
+				alert("失败");
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////
+
+	//点赞，收藏
+	function good_save(act,text_id){
+		$.ajax({
+			url:'http://192.168.121.134:80/Hadoopbigwork/BokeText',
+            //url : 'http://localhost:8080/Hadoopbigwork/BokeText',
+			type:'GET',
+			dataType:'text',
+			async:true,
+			timeout:50000,
+			data:{
+				id:"10",
+				act:act,
+				text_id: text_id
+			},
+			success:function(text){
+				if(text=="1"){
+					alert("已点赞！");
+					showtext(text_id);
+				};
+				if(text=="2"){
+					alert("已收藏！");
+					showtext(text_id);
+				};
+				if(text=="3")alert("请登录！");
+			},
+			error : function(){										
+				alert("失败");
+			},
+		})
+	}
+//////////////////////////////////////////////////////////////////////////////////
+
+	//首页
+	function test6(){
+		window.location.assign('./recommend.html');
+	}
+//////////////////////////////////////////////////////////////////////////////////
+
+	//更换用户
+	function relogin(){
+		window.location.assign('./LogIn.html');
+	}
+	</script>
+</head>
+<body id="oldform">
+
+    <div id="jsi-cherry-container" class="container">
+        <div id="leftdiv">
+			<ul id='list'>
+				<li class="my" id='mylist1' onclick="test1();return false">
+				<a href=''>个人资料</a>
+				</li>
+				<li class="my" id='mylist2' onclick="test2();return false">
+				<a href=''>我的博客</a>
+				</li>
+				<li class="my" id='mylist3' onclick="test3();return false">
+				<a href=''>写博客</a>
+				</li>
+				<li class="my" id='mylist4' onclick="test4();return false">
+				<a href=''>收藏</a>
+				</li>
+				<li class="my" id='mylist5' onclick="test5();return false">
+				<a href=''>推荐</a>
+				</li>
+				<li class="my" id='mylist6' onclick="test6();return false">
+				<a href=''>首页</a>
+				</li>
+				<li class="my" id='mylist7' onclick="relogin();return false">
+				<a href=''>更换用户</a>
+				</li>
+			</ul>
+        </div>
+        <div id="rightdiv" style="position:absolute;overflow-x:hidden;overflow-y:auto">
+
+        </div>
+    </div>
+</body>
+</html>

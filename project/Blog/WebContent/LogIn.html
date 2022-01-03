@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>博客</title>
+<link rel="stylesheet" href="css/result.css">
+<link rel="stylesheet" href="css/LogIn.css">
+<script src="js/flower.js" defer></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/out.js" defer></script>
+<script>
+	//	登录
+	function login(){
+		
+        $.ajax({
+            url : 'http://192.168.121.134:80/Hadoopbigwork/LogIn',
+            //url : 'http://localhost:8080/Hadoopbigwork/LogIn',
+            type: 'GET',
+            dataType : 'text',
+            async : true,
+            timeout : 50000,
+            data:{
+            	id:"1",
+            	username:document.getElementsByName('userID')[0].value,
+            	password:document.getElementsByName('password')[0].value,
+       
+            },
+            success : function(n) {
+            	if(n=="0")
+            		window.location.assign('./myboke.html')
+            	if(n=="1")alert("密码错误");
+            	if(n=="2")alert("账号不存在");
+            },
+            error : function() {
+            	alert("无法获取");
+            }
+        })}
+
+	//	点击注册替换form标签为注册
+	function zhuce(){
+
+		var divdom = document.getElementById("oldtext").innerHTML =
+				"<form method=\"GET\" id='form'>" +
+					"<h2>用户注册</h2>" +
+					"<div class=\"newlogin\">" +
+						"<p>账&nbsp;&nbsp;&nbsp;号：<input type=\"text\" name=\"set_userID\" id=\"set_userID\" />" +
+						"&nbsp;密&nbsp;&nbsp;&nbsp;码：<input type=\"password\" name=\"set_password\" id=\"set_passwd\" /></p>" +
+						"<p>昵&nbsp;&nbsp;&nbsp;称：<input type=\"text\" name=\"set_username\" id=\"set_username\" />" +
+						"&nbsp;邮&nbsp;&nbsp;&nbsp;箱：<input type=\"text\" name=\"email\" id=\"email\" /></p>" +
+						"<p>电&nbsp;&nbsp;&nbsp;话：<input type=\"text\" name=\"telephone\" id=\"telephone\" />" +
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" name=\"\" id=\"setin\" value=\"确定注册\" onclick=\"inset()\" />" +
+						"&nbsp;<input type=\"button\" name=\"\" id=\"relogin\" value=\"重新登录\" onclick=\"relogin1()\"/></p>" +
+					"</div>" +
+				"</form>"
+
+	}
+	//	注册
+	function inset(){
+		
+		$.ajax({
+		url:'http://192.168.121.134:80/Hadoopbigwork/LogIn',
+        //url : 'http://localhost:8080/Hadoopbigwork/LogIn',
+		type:'GET',
+		dataType:'text',
+		async:true,
+		timeout:50000,
+		data:{
+			id:"2",
+			userID:document.getElementById("set_userID").value,
+			set_username:document.getElementById("set_username").value,
+			set_passwd:document.getElementById("set_passwd").value,
+			email:document.getElementById("email").value,
+			telephone:document.getElementById("telephone").value
+			},
+		success:function(data){
+			if(data[0]=="1"){
+				alert("注册成功");	
+			}else{
+				alert("注册失败,此用户已存在");
+					//返回当前页面
+			}
+		},
+			error : function(){										
+			alert("失败")
+			},
+				})}
+	//	重新登录
+	function relogin1(){
+		var divdom = document.getElementById("oldtext").innerHTML =
+				"<form method=\"GET\" id=\"form\">" +
+					"<h2>用户登录</h2>" +
+					"<div class=\"login\">" +
+						"<p>账&nbsp;&nbsp;&nbsp;号：<input type=\"text\" name=\"userID\" id=\"userID\" /></p>" +
+						"<p>密&nbsp;&nbsp;&nbsp;码：<input type=\"password\" name=\"password\" id=\"passwd\" /></p>" +
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" name=\"\" id=\"submit\" value=\"登录\" onclick=\"login()\"/>" +
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" name=\"\" id=\"btn\" value=\"注册\" onclick=\"zhuce()\"/>" +
+					"</div>" +
+				"</form>"
+	}
+</script>
+
+</head>
+<body id="oldform">
+<div id="oldtext">
+ 	<form method="GET" id="form">
+		<h2>用户登录</h2>
+		<div class="login">
+			<p>账&nbsp;&nbsp;&nbsp;号：<input type="text" name="userID" id="userID" /></p>
+			<p>密&nbsp;&nbsp;&nbsp;码：<input type="password" name="password" id="passwd" /></p>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" name="" id="submit" value="登录" onclick="login()"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" name="" id="btn" value="注册" onclick="zhuce()"/>
+		</div>
+ 	</form></div>
+<div id="jsi-cherry-container" class="container"></div>
+</body>
+</html>
